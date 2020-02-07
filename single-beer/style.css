@@ -1,0 +1,52 @@
+* {
+  box-sizing: border-box
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Dosis', sans-serif;
+  color: #666;
+}
+
+#root {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.header {
+  height: 7rem;
+  text-align: center;
+  border-bottom: 0.25rem solid #666;
+}
+
+.beerName {
+  padding: 0;
+}
+
+.beerTagline {
+  font-style: italic;
+  padding: 0;
+}
+
+.container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.beerDate {
+  width: 50%;
+}
+
+.beerDescription {
+  line-height: 1.6;
+}
+
+.beerPairing {
+  line-height: 1.6;
+}
+
+.beerPic {
+  height: 50vh;
+}
