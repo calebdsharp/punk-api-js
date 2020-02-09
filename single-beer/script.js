@@ -15,55 +15,57 @@ let id = params.get("id");
 
 console.log(id);
 
-var req = new XMLHttpRequest();
-req.open('GET', 'https://api.punkapi.com/v2/beers/' + id, true);
-req.onload = function() {
-  const beer = JSON.parse(this.response)[0];
-  console.log(beer);
-  if (req.status >= 200 && req.status < 400) {
-    document.title = beer.name;
+fetch('https://api.punkapi.com/v2/beers/' + id)
+.then(
+  function(response) {
+    if(response.status != 200) {
+      console.log('Something went wrong. Status code ' + response.status);
+      return;
+    }
 
-    const beerName = document.createElement('h1');
-    beerName.setAttribute('class', 'beerName');
-    beerName.textContent = beer.name;
+    response.json().then(function(beer) {
+      beer = beer[0];
+      document.title = beer.name;
 
-    header.appendChild(beerName);
+      const beerName = document.createElement('h1');
+      beerName.setAttribute('class', 'beerName');
+      beerName.textContent = beer.name;
 
-    const beerTagline = document.createElement('h3')
-    beerTagline.setAttribute('class', 'beerTagline')
-    beerTagline.textContent = `"${beer.tagline}"`;
+      header.appendChild(beerName);
 
-    header.appendChild(beerTagline)
+      const beerTagline = document.createElement('h3')
+      beerTagline.setAttribute('class', 'beerTagline')
+      beerTagline.textContent = `"${beer.tagline}"`;
 
-    const beerDate = document.createElement('p')
-    beerDate.setAttribute('class', 'beerDate')
-    beerDate.textContent = `First Brewed: ${beer.first_brewed}`;
+      header.appendChild(beerTagline)
 
-    container.appendChild(beerDate)
+      const beerDate = document.createElement('p')
+      beerDate.setAttribute('class', 'beerDate')
+      beerDate.textContent = `First Brewed: ${beer.first_brewed}`;
+
+      container.appendChild(beerDate)
 
 
-    const beerDescription = document.createElement('p');
-    beerDescription.setAttribute('class', 'beerDescription');
-    beerDescription.textContent = `Description: ${beer.description}`;
+      const beerDescription = document.createElement('p');
+      beerDescription.setAttribute('class', 'beerDescription');
+      beerDescription.textContent = `Description: ${beer.description}`;
 
-    beerDate.appendChild(beerDescription);
+      beerDate.appendChild(beerDescription);
 
-    const beerPairing = document.createElement('p')
-    beerPairing.setAttribute('class', 'beerPairing')
-    beerPairing.textContent = `Food Pairing: ${beer.food_pairing}`;
+      const beerPairing = document.createElement('p')
+      beerPairing.setAttribute('class', 'beerPairing')
+      beerPairing.textContent = `Food Pairing: ${beer.food_pairing}`;
 
-    beerDescription.appendChild(beerPairing)
+      beerDescription.appendChild(beerPairing)
 
-    const beerPic = document.createElement('img')
-    beerPic.setAttribute('class', 'beerPic')
-    beerPic.src = beer.image_url;
+      const beerPic = document.createElement('img')
+      beerPic.setAttribute('class', 'beerPic')
+      beerPic.src = beer.image_url;
 
-    container.appendChild(beerPic)
+      container.appendChild(beerPic)
 
-  } else {
-    const errMessage = document.createElement('marquee')
-    errMessage.textContent = 'Something isn\'t right...'
-    app.appendChild(errMessage)
-  }
-};
-req.send();
+    });
+  })
+.catch(function(err) {
+  console.log('Fetch error', err);
+});
